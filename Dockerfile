@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM python:3.10-alpine3.18
 
 LABEL MAINTAINER="Daniel Pryor <daniel@pryorda.net>"
 LABEL NAME=vmware_exporter
@@ -10,6 +10,9 @@ RUN set -x; buildDeps="gcc python3-dev musl-dev libffi-dev openssl openssl-dev r
  && apk add --no-cache --update $buildDeps \
  && pip install -r requirements.txt . \
  && apk del $buildDeps
+
+RUN apk update && \
+    apk upgrade --no-cache libcrypto3 libssl3
 
 EXPOSE 9272
 
